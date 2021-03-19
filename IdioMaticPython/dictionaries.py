@@ -70,4 +70,29 @@ for c in colors:
     d[key].append(c)
 pprint(dict(d))
 
-# 28:20
+# popitem
+# this is thread safe atomic
+d = {
+    "matthew": "blue",
+    "rachel": "green",
+    "raymond": "red"
+}
+
+while d:
+    key, value = d.popitem()
+    print(key, '-->', value)
+
+
+# linking dictionaries
+import argparse, os
+from collections import ChainMap
+defaults = {"USER": "red", "USER": "guest"}
+parser = argparse.ArgumentParser()
+parser.add_argument("-u", "--user")
+parser.add_argument("-c", "--color")
+namespace = parser.parse_args([])
+command_line_args = {k:v for k, v in
+                    vars(namespace).items() if v}
+
+d = ChainMap(command_line_args, defaults, os.environ)
+pprint(d["USER"])
